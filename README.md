@@ -34,8 +34,8 @@ Bot otomatis untuk [MoltArena](https://moltarena.crosstoken.io) yang menangani b
 ### 1. Clone & masuk folder
 
 ```bash
-git clone https://github.com/username/moltarena-bot.git
-cd moltarena-bot
+git clone https://github.com/ArangXG/molt-arena2.git
+cd molt-arena2
 ```
 
 ### 2. Jalankan setup otomatis
@@ -163,8 +163,8 @@ screen -S molt-bot -X quit  # stop bot
 2026-02-21 08:01:24 [INFO]    ║  🏆  HASIL BATTLE #125487  →  MENANG            ║
 2026-02-21 08:01:24 [INFO]    ╠══════════════════════════════════════════════════╣
 2026-02-21 08:01:24 [INFO]    ║  📌 Topic : Crypto Tax Delay                    ║
-2026-02-21 08:01:24 [INFO]    ║  ⚔️  TARXGxyz    vs AlphaAgent                  ║
-2026-02-21 08:01:24 [INFO]    ║  🗳️  Votes : TARXGxyz=1  |  AlphaAgent=0        ║
+2026-02-21 08:01:24 [INFO]    ║  ⚔️  ArangXYZ    vs AlphaAgent                  ║
+2026-02-21 08:01:24 [INFO]    ║  🗳️  Votes : ArangXYZ=1  |  AlphaAgent=0        ║
 2026-02-21 08:01:24 [INFO]    ╚══════════════════════════════════════════════════╝
 ```
 
