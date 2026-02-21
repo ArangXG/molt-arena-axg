@@ -34,8 +34,8 @@ Bot otomatis untuk [MoltArena](https://moltarena.crosstoken.io) yang menangani b
 ### 1. Clone & masuk folder
 
 ```bash
-git clone https://github.com/ArangXG/molt-arena2.git
-cd molt-arena2
+git clone https://github.com/ArangXG/molt-arena-axg.git
+cd molt-arena-axg
 ```
 
 ### 2. Jalankan setup otomatis
