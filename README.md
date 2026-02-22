@@ -1,4 +1,4 @@
-# 🥊 MoltArena Auto Battle Bot v10
+# 🥊 MoltArena Auto Battle Bot v10.2
 
 Bot otomatis untuk [MoltArena](https://moltarena.crosstoken.io) yang menangani battle, auto-vote, dan session refresh tanpa intervensi manual.
 
@@ -9,7 +9,8 @@ Bot otomatis untuk [MoltArena](https://moltarena.crosstoken.io) yang menangani b
 - ⚔️ **Auto Battle** — Buat dan jalankan battle otomatis terus-menerus
 - 🗳️ **Auto-Vote** — Vote otomatis untuk agentmu sendiri di setiap battle
 - 🔄 **Session Auto-Refresh** — Token Supabase diperbarui otomatis setiap 45 menit (sebelum expire 1 jam)
-- ⏰ **Smart Voting Timer** — Baca `votingEndsAt` dari API, tunggu sampai timer habis, baru ambil hasil final
+- ⏰ **Smart Voting Timer** — Baca `votingEndsAt` dari API, tunggu sampai timer habis, baru ambil hasil final yang benar
+- 🔁 **Auto-Retry /run** — Jika server error 500, bot retry otomatis hingga 3x
 - 📊 **Summary Otomatis** — Statistik win/lose/draw saat bot dihentikan (Ctrl+C)
 - 🛡️ **Tanpa private key / blockchain** — Hanya butuh API Key dan session cookie
 
@@ -65,7 +66,7 @@ MOLT_ROUNDS=5
 MOLT_AUTO_VOTE=true
 
 # ── Session Cookie (diperbarui otomatis oleh bot) ──────
-MOLT_SESSION_COOKIE=_ga=...; sb-hkxnuxudaopdpmlcfqjf-auth-token.0=base64-...
+MOLT_SESSION_COOKIE="_ga=...; sb-hkxnuxudaopdpmlcfqjf-auth-token.0=base64-..."
 ```
 
 | Variable | Wajib | Default | Keterangan |
@@ -126,46 +127,26 @@ python3 molt_auto_battle.py --once
 python3 molt_auto_battle.py --debug
 ```
 
-### Background dengan Screen
-
-```bash
-screen -dmS molt-bot bash -c "python3 molt_auto_battle.py"
-screen -r molt-bot          # lihat log
-# Ctrl+A → D untuk detach
-screen -S molt-bot -X quit  # stop bot
-```
-
 ---
 
-## 📊 Contoh Output
+## 📊 Contoh Output Normal
 
 ```
-2026-02-21 07:50:00 [INFO]  ═══════════════════════════════════════════════════
-2026-02-21 07:50:00 [INFO]    🥊  MoltArena Auto Battle Bot v10
-2026-02-21 07:50:00 [INFO]    🔑 API Key  : pk_live_xxxxxx...xxxx
-2026-02-21 07:50:00 [INFO]    🤖 Agent    : xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
-2026-02-21 07:50:00 [INFO]    🎯 Rounds   : 5
-2026-02-21 07:50:00 [INFO]    ⏱️  Delay    : 10m 0s
-2026-02-21 07:50:01 [INFO]  ─── Battle #1 ───────────────────────────────────
-2026-02-21 07:50:02 [INFO]    ✅ Battle #125487 dibuat!
-2026-02-21 07:50:02 [INFO]    📌 Topic: Crypto Tax Delay
-2026-02-21 07:50:02 [INFO]    🆚 Lawan: AlphaAgent
-2026-02-21 07:50:03 [INFO]    ▶️  Step 2: Jalankan battle...
-2026-02-21 07:50:03 [INFO]    ✅ Running!
-2026-02-21 07:50:08 [INFO]    🔄 Step 3: Polling hasil...
-2026-02-21 07:56:10 [INFO]    🗳️  Step 4: Auto-vote...
-2026-02-21 07:56:10 [INFO]    🗳️  Auto-vote berhasil! Weight=1 | Votes={...}
-2026-02-21 07:56:11 [INFO]    ⏰ votingEndsAt=08:13:59 UTC | Sisa 4m 52s → tidur dulu...
-2026-02-21 08:01:24 [INFO]    🔍 Voting selesai → ambil hasil final...
-2026-02-21 08:01:24 [INFO]    ✅ Hasil final diterima!
-2026-02-21 08:01:24 [INFO]
-2026-02-21 08:01:24 [INFO]    ╔══════════════════════════════════════════════════╗
-2026-02-21 08:01:24 [INFO]    ║  🏆  HASIL BATTLE #125487  →  MENANG            ║
-2026-02-21 08:01:24 [INFO]    ╠══════════════════════════════════════════════════╣
-2026-02-21 08:01:24 [INFO]    ║  📌 Topic : Crypto Tax Delay                    ║
-2026-02-21 08:01:24 [INFO]    ║  ⚔️  ArangXYZ    vs AlphaAgent                  ║
-2026-02-21 08:01:24 [INFO]    ║  🗳️  Votes : ArangXYZ=1  |  AlphaAgent=0        ║
-2026-02-21 08:01:24 [INFO]    ╚══════════════════════════════════════════════════╝
+2026-02-22 07:50:00 [INFO]  ✅ Session berhasil diperbarui!
+2026-02-22 07:50:00 [INFO]  ✅ Supabase anon key siap!
+2026-02-22 07:50:00 [INFO]  🔑 Refresh token OK → auto-refresh setiap 45 menit
+2026-02-22 07:50:01 [INFO]  ─── Battle #1 ─────────────────────────────────
+2026-02-22 07:50:02 [INFO]    ✅ Battle #125487 dibuat!
+2026-02-22 07:50:02 [INFO]    📌 Topic: Crypto Tax Delay
+2026-02-22 07:50:02 [INFO]    🆚 Lawan: AlphaAgent
+2026-02-22 07:50:03 [INFO]    ▶️  Step 2: Jalankan battle...
+2026-02-22 07:50:03 [INFO]    ✅ Running!
+2026-02-22 07:56:10 [INFO]    🗳️  Auto-vote berhasil! Weight=1
+2026-02-22 07:56:11 [INFO]    ⏰ votingEndsAt=08:13:59 UTC | Sisa 4m 52s → tidur dulu...
+2026-02-22 08:01:24 [INFO]    ✅ Hasil final diterima!
+2026-02-22 08:01:24 [INFO]    ╔══════════════════════════════════════════════╗
+2026-02-22 08:01:24 [INFO]    ║  🏆  HASIL BATTLE #125487  →  MENANG        ║
+2026-02-22 08:01:24 [INFO]    ╚══════════════════════════════════════════════╝
 ```
 
 ---
@@ -176,9 +157,37 @@ screen -S molt-bot -X quit  # stop bot
 |--------|----------|--------|
 | `API Key ditolak (401/403)` | API Key salah / expired | Generate ulang di Settings |
 | `Vote gagal 401` | Session cookie expired | `run.sh` → pilih **[3] Update cookie saja** |
-| Hasil selalu DRAW | (Fixed di v10) | Pastikan pakai file terbaru |
-| `/run error, tetap polling` | (Fixed di v10) | Pastikan pakai file terbaru |
-| Bot berhenti tanpa pesan | `set -e` + cookie panjang | Pastikan pakai `run.sh` terbaru |
+| `/run HTTP 500: MIDDLEWARE_INVOCATION_FAILED` | Server MoltArena overload sesaat | Bot retry otomatis 3x, tidak perlu intervensi |
+| `HTTP 400: Agent is already in an active battle` | Agent masih dalam battle sebelumnya | Bot tunggu otomatis lalu retry |
+| Bot berhenti tanpa pesan | (Fixed) `set -e` + cookie panjang | Pastikan pakai `run.sh` terbaru |
+| Hasil selalu DRAW | (Fixed) Bot baca result sebelum voting selesai | Pastikan pakai semua file terbaru |
+| Warning `Supabase anon key tidak ditemukan` | (Fixed) Key tidak ter-detect dari HTML | Sudah pakai hardcoded fallback |
+| Warning `Refresh token tidak ditemukan` | (Fixed) Bug base64 padding | Sudah diperbaiki di `session_keeper.py` |
+
+---
+
+## 📋 Changelog
+
+### v10.2 (Current)
+
+**`molt_auto_battle.py`**
+- ✅ **Fix `/run` selalu error** — endpoint `/run` sekarang pakai cookie session seperti browser, bukan Bearer token
+- ✅ **Fix hasil selalu DRAW** — tambah Step 5 yang menunggu `votingEndsAt` habis sebelum ambil hasil final
+- ✅ **Fix `votingEndsAt` tidak terdeteksi** — fetch fresh data di awal Step 5, fallback estimasi 5m 40s jika field kosong
+- ✅ **Fix error HTTP 400 tidak informatif** — tampilkan pesan asli dari server, tangani kasus agent masih aktif & cooldown secara otomatis
+- ✅ **Retry otomatis `/run` hingga 3x** — handle `HTTP 500 MIDDLEWARE_INVOCATION_FAILED` dengan backoff 10s dan 20s
+
+**`session_keeper.py`**
+- ✅ **Fix base64 padding bug** — `(4 - n % 4) % 4` menggantikan `(4 - n % 4)` yang crash jika panjang string habis dibagi 4, menyebabkan `refresh_token` tidak terbaca
+- ✅ **Fix Supabase anon key tidak ditemukan** — hardcoded fallback `sb_publishable_...` agar langsung siap tanpa perlu scan HTML (key ada di JS bundle, bukan HTML)
+- ✅ **Fix double-call `_discover_anon_key`** — warning muncul 2x karena fungsi dipanggil di `start()` dan di `_do_refresh()` secara bersamaan
+- ✅ **Fix `_save_to_env` tanpa quotes** — cookie sekarang disimpan dengan quotes `"..."` agar aman saat dibaca ulang oleh dotenv
+- ✅ **Log lebih informatif** — pesan warning yang menyesatkan diganti dengan info yang akurat
+
+**`run.sh`**
+- ✅ **Fix bot berhenti tanpa pesan** — hapus `set -e` yang menyebabkan script exit diam-diam saat `source .env` gagal karena cookie berkarakter special
+- ✅ **Fix bash source cookie** — load `.env` via Python inline agar tidak crash akibat karakter `;`, `=`, `{` di nilai cookie
+- ✅ **Cookie disimpan dengan quotes** di template `.env` yang digenerate oleh setup wizard
 
 ---
 
